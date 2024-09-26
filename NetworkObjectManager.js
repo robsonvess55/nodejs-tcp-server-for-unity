@@ -28,10 +28,10 @@ function removeObject(uInstance) {
 function removeObjectByClientID(clientID) {
     const newList = [];
 
-    for(let i = 0; i < m_NetworkObjects.length; i++) {
+    for (let i = 0; i < m_NetworkObjects.length; i++) {
         const networkObject = m_NetworkObjects[i];
 
-        if(networkObject.clientID !== clientID) {
+        if (networkObject.clientID !== clientID) {
             newList.push(networkObject);
         }
     }

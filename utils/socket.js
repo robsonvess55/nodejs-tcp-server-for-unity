@@ -8,8 +8,8 @@ const SocketManager = require('../SocketManager');
 function broadcast(message, senderSocket) {
     const sockets = SocketManager.getSockets();
 
-    sockets.forEach(function(socket) {
-        if(socket == senderSocket) return;
+    sockets.forEach(function (socket) {
+        if (socket == senderSocket) return;
 
         socket.write(message);
     });

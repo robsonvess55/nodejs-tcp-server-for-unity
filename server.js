@@ -13,7 +13,7 @@ const {
 
 let socketCounter = 0;    // This value will use for distinguish client for each transmission
 
-const server = net.createServer(function(socket) {
+const server = net.createServer(function (socket) {
     socket.name = socket.remoteAddress + ":" + socket.remotePort;
     socket.clientID = socketCounter++;
     socket.syncCount = 0;   // Check for Sync Network Object Instantiation
@@ -25,17 +25,17 @@ const server = net.createServer(function(socket) {
     // Send Client ID to client
     sendClientID(socket);
 
-    socket.on('data', function(data) {
+    socket.on('data', function (data) {
         const byteReader = new ByteReader(data);
         const messageType = byteReader.readByte();
         const clientID = byteReader.readInt();
-        
-        if(messageType !== MessageType.SyncTransform) {
-            console.log(`Receive Message\nMessageType: ${messageType}\nClientID: ${clientID}`);        
+
+        if (messageType !== MessageType.SyncTransform) {
+            console.log(`Receive Message\nMessageType: ${messageType}\nClientID: ${clientID}`);
         }
 
         // Dispatch Message
-        switch(messageType) {
+        switch (messageType) {
             case MessageType.ClientRequestObjectSync:
                 synchronizeNetworkObjects(socket);
                 break;
@@ -51,16 +51,16 @@ const server = net.createServer(function(socket) {
         }
     });
 
-    socket.on('end', function() {
+    socket.on('end', function () {
         console.log(`Client ${socket.clientID} Left.`);
         destroyNetworkObjects(socket);
         SocketManager.removeSocket(socket);
     });
 
-    socket.on('error', function(err) {
+    socket.on('error', function (err) {
         console.log('Error', err);
 
-        if(err.code === 'ECONNRESET') {
+        if (err.code === 'ECONNRESET') {
             socket.emit('end');
         }
     });

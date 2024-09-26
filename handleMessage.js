@@ -16,7 +16,7 @@ function sendClientID(socket) {
     const byteWriter = new ByteWriter(buffer);
     byteWriter.writeByte(MessageType.AssignID);
     byteWriter.writeInt(socket.clientID);
-    
+
     socket.write(buffer);
 }
 
@@ -29,7 +29,7 @@ function synchronizeNetworkObjects(socket) {
     const totalCount = networkObjects.length;
     let sendingBytes;
 
-    if(socket.syncCount >= totalCount) {
+    if (socket.syncCount >= totalCount) {
         sendingBytes = Buffer.allocUnsafe(byteSize);
         sendingBytes[0] = MessageType.ServerRequestObjectSyncComplete;
         console.log('Nothing to Sync. Complete Instantiation...');
@@ -37,7 +37,7 @@ function synchronizeNetworkObjects(socket) {
         const uInstance = networkObjects[socket.syncCount];
 
         // Skip own objects
-        if(uInstance.clientID == socket.clientID) {
+        if (uInstance.clientID == socket.clientID) {
             socket.syncCount++;
             return synchronizeNetworkObjects(socket);
         }
@@ -90,8 +90,8 @@ function parseInstantiate(socket, data) {
     const instantiateType = byteReader.readByte();
     const position = byteReader.readVector3();
     const rotation = byteReader.readQuaternion();
-    
-    if(instantiateType == InstantiateType.Player) {
+
+    if (instantiateType == InstantiateType.Player) {
         console.log('Instantiating Player...');
     }
 
@@ -113,7 +113,7 @@ function parseSyncTransform(socket, data) {
     // const byteReader = new ByteReader(data);
     // const messageType = byteReader.readByte();
     // const clientID = byteReader.readInt();
-    
+
     // const localID = byteReader.readInt();
     // const position = byteReader.readVector3();
     // const rotation = byteReader.readQuaternion();
