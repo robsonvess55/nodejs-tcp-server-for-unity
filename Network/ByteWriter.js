@@ -11,7 +11,7 @@ class ByteWriter extends Cursor {
         this.dataSource.writeInt32LE(value, this.cursor);
         this.cursor += intSize;
     }
-
+    
     /**
      * Write Vector3
      * @param {Vector3} value
